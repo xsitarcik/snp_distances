@@ -1,21 +1,10 @@
 # Snakemake workflow: `<name>`
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥7.25.0-brightgreen.svg)](https://snakemake.github.io)
-[![Tests](https://github.com/<owner>/<repo>/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/<owner>/<repo>/actions?query=branch%3Amain+workflow%3ATests)
+[![Tests](https://github.com/xsitarcik/outbreak_detection/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/xsitarcik/outbreak_detection/actions?query=branch%3Amain+workflow%3ATests)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-A Snakemake workflow for `<description>`
-
-After pressing `Use this template`, the following steps are to be performed to finish the configuration of the new repository:
-
-In github:
-
-- Allow Github Actions to create pull requests (in Settings->Actions/general there is a checkbox `Allow GitHub Actions to create and approve pull requests`, check it.)
-- Block main branch (in Settings->Branches press `Add branch protection rule`, set `Branch name pattern` to `main` and check the `Require a pull request before merging` checkbox)
-
-In README.md:
-
-- replace `<XY>` values with the correct ones (in badges as well)
+A Snakemake workflow for outbreak detection.
 
 ## Development
 

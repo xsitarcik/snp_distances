@@ -1,1 +1,7 @@
 # template for the configuration of the workflow
+
+threads:
+  prokka: 4
+  roary: 4
+  snp_dists: 4
+  iqtree: 8

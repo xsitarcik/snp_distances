@@ -18,12 +18,28 @@ validate(pep.sample_table, "../schemas/samples.schema.yaml")
 
 ### Data input handling independent of wildcards ######################################################################
 
+def get_sample_names() -> list[str]:
+    return list(pep.sample_table["sample_name"].values)
+
+
+def get_fasta_for_sample_from_pep(sample: str) -> str:
+    return pep.sample_table.loc[sample][["fasta"]][0]
+
+def get_all_assemblies() -> list[str]:
+    return list(pep.sample_table["fasta"].values)
 
 ### Global rule-set stuff #############################################################################################
 
 
+def infer_assembly_fasta(wildcards) -> str:
+    return get_fasta_for_sample_from_pep(wildcards.sample)
+
+
 def get_outputs():
-    return {}
+    return {
+        "stats": "results/summary/lowest_genome_size.txt",
+        "tree": "results/roary/_1705504897/core_gene_alignment.aln.treefile"
+    }
 
 
 ### Contract for other workflows ######################################################################################
