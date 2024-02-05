@@ -1,1 +1,6 @@
-# this config will be used for e2e test
+max_threads: 2
+threads:
+  prokka: 2
+  roary: 2
+  snp_dists: 2
+  iqtree: 2

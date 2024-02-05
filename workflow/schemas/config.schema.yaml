@@ -1,1 +1,46 @@
-# schema for the config
+"$schema": http://json-schema.org/draft-06/schema#
+"$ref": "#/definitions/OutbreakDetection"
+definitions:
+  OutbreakDetection:
+    type: object
+    additionalProperties: false
+    properties:
+      pepfile:
+        type: string
+        description: "Path to the PEP file containing the info how to load the data."
+        default: "config/pep/config.yaml"
+      max_threads:
+        type: integer
+        description: "Number of maximum threads to use in jobs."
+        default: 1
+        Minimum: 1
+      threads:
+        type: object
+        "$ref": "#/definitions/Threads"
+    required:
+      - threads
+    title: OutbreakDetection
+  Threads:
+    additionalProperties: true
+    prokka:
+      type: integer
+      default: 1
+      description: "Number of threads to use for prokka."
+    iqtree:
+      type: integer
+      default: 1
+      description: "Number of threads to use for iqtree"
+    roary:
+      type: integer
+      default: 1
+      description: "Number of threads to use for roary."
+    snp_dists:
+      type: integer
+      default: 1
+      description: "Number of threads to use for snp_dists."
+    title: Threads
+    required:
+      - prokka
+      - iqtree
+      - roary
+      - snp_dists

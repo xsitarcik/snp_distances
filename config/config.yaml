@@ -1,4 +1,4 @@
-# template for the configuration of the workflow
+max_threads: 2
 
 threads:
   prokka: 4

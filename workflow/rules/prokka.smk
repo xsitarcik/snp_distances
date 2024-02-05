@@ -9,11 +9,10 @@ rule prokka_run:
         # --mincontiglen=200, # Minimum contig size [NCBI needs 200] (default '1')
         # --centre="CUSP", # Sequencing centre ID. (default '')
         # --compliant       Force Genbank/ENA/DDJB compliance:
-        extra = "--mincontiglen=200 --centre=CUSP --compliant --noanno",
+        extra="--mincontiglen=200 --centre=CUSP --compliant --noanno",
     conda:
         "../envs/prokka.yaml"
-    threads:
-        config["threads"]["prokka"]
+    threads: min(config["threads"]["prokka"], config["max_threads"])
     log:
         "logs/prokka/{sample}.log",
     shell:
@@ -29,8 +28,7 @@ rule roary_run:
         outdir=lambda wildcards, output: os.path.dirname(os.path.dirname(output[0])),
     conda:
         "../envs/roary.yaml"
-    threads:
-        config["threads"]["roary"]
+    threads: min(config["threads"]["roary"], config["max_threads"])
     log:
         "logs/roary.log",
     shell:
@@ -44,12 +42,11 @@ rule snpdists_compute:
         "results/roary/_1705504897/snps_distance_matrix.tsv",
     conda:
         "../envs/snpdists.yaml"
-    threads:
-        config["threads"]["snp_dists"]
+    threads: min(config["threads"]["snp_dists"], config["max_threads"])
     log:
         "logs/snp_dists.log",
     shell:
-        "(snp-dists -b -j {threads} {input} | sed -e \"s/_Unicycler_scaffolds_annot//g\" > {output})  2> {log}""
+        '(snp-dists -b -j {threads} {input} | sed -e "s/_Unicycler_scaffolds_annot//g" > {output})  2> {log}'
 
 
 rule seqkit_stats:
@@ -86,23 +83,18 @@ rule iqtree_phylogeny:
         tree="results/roary/_1705504897/core_gene_alignment.aln.treefile",
     log:
         "logs/iqtree.log",
-    threads:
-        config["threads"]["iqtree"]
+    threads: min(config["threads"]["iqtree"], config["max_threads"])
     conda:
         "../envs/iqtree.yaml"
     shell:
         "iqtree -s {input.aln} -T {threads} > {log} 2>&1"
 
+
 # phylogeny
 # sed -e "s/_Unicycler_scaffolds_annot//g" roary/*/core_gene_alignment.aln.treefile > cga_IQtree.newick
-
-
-
 # coverage of genome calculation
 # core_genome_size=$(tail -n 1 snps_distance.log | rev | cut -d ' ' -f 1 | rev)
 # coverage=$(echo "scale=3;  $core_genome_size / $lowest_genome_size" | bc)
-
-
 # echo "Core genome coverage of the computed genomes is 0${coverage}" > core_genome_coverage.txt
 # echo "Core genome size is ${core_genome_size} bp." >> core_genome_coverage.txt
 # echo "Genome with smallest size is ${lowest_genome_size} bp long. This includes noncoding regions and paralogous genes." >> core_genome_coverage.txt
