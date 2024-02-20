@@ -19,20 +19,35 @@ rule prokka_run:
         "prokka --force --prefix {wildcards.sample} --cpus {threads} --outdir {params.outdir} {input} > {log} 2>&1"
 
 
+# rule roary_run:
+#     input:
+#         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
+#     output:
+#         aln="results/roary/_1705504897/core_gene_alignment.aln",
+#     params:
+#         outdir=lambda wildcards, output: os.path.dirname(os.path.dirname(output[0])),
+#     conda:
+#         "../envs/roary.yaml"
+#     threads: min(config["threads"]["roary"], config["max_threads"])
+#     log:
+#         "logs/roary.log",
+#     shell:
+#         "(roary -r -e --mafft -p {threads} {input} -f {output} || echo 'finished with error') > {log} 2>&1"
+
+
 rule roary_run:
     input:
         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
     output:
-        aln="results/roary/_1705504897/core_gene_alignment.aln",
+        aln="results/panaroo/core_gene_alignment.aln",
     params:
-        outdir=lambda wildcards, output: os.path.dirname(os.path.dirname(output[0])),
+        outdir=lambda wildcards, output: os.path.dirname(output[0]),
     conda:
-        "../envs/roary.yaml"
-    threads: min(config["threads"]["roary"], config["max_threads"])
+        "../envs/panaroo.yaml"
     log:
         "logs/roary.log",
     shell:
-        "(roary -r -e --mafft -p {threads} {input} -f {output} || echo 'finished with error') > {log} 2>&1"
+        "panaroo -i {input.GFFs} -o {params.outdir} --clean-mode sensitive > {log} 2>&1"
 
 
 rule snpdists_compute:
