@@ -32,7 +32,7 @@ rule roary_run:
     log:
         "logs/roary.log",
     shell:
-        "roary -r -e --mafft -p {threads} {input} -f {output} > {log} 2>&1"
+        "(roary -r -e --mafft -p {threads} {input} -f {output} || echo 'finished with error') > {log} 2>&1"
 
 
 rule snpdists_compute:
@@ -98,3 +98,8 @@ rule iqtree_phylogeny:
 # echo "Core genome coverage of the computed genomes is 0${coverage}" > core_genome_coverage.txt
 # echo "Core genome size is ${core_genome_size} bp." >> core_genome_coverage.txt
 # echo "Genome with smallest size is ${lowest_genome_size} bp long. This includes noncoding regions and paralogous genes." >> core_genome_coverage.txt
+# # needs conda activate R_new environment
+# # simple tree drawing
+# Rscript --vanilla newick_tree_plott.R cga_IQtree.newick outbreak_phylogeny_rectangular.jpg
+# echo 'conda activate R_new'
+# echo 'Rscript --vanilla newick_tree_plott.R cga_IQtree.newick outbreak_phylogeny_rectangular.jpg'
