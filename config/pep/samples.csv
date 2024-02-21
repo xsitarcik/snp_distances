@@ -1,4 +1,2 @@
 sample_name,fasta
-test1,fasta
-test2,fasta
-test3,fasta
+SAMPLE_NAME_PLACEHOLDER,FASTA_PATH_PLACEHOLDER
