@@ -1,6 +1,7 @@
 channels:
   - conda-forge
   - bioconda
-  - nodefaults
+  - defaults
 dependencies:
   - panaroo=1.4.1
+  - python=3.9

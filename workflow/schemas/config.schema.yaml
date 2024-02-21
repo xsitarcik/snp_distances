@@ -17,30 +17,57 @@ definitions:
       threads:
         type: object
         "$ref": "#/definitions/Threads"
+      panaroo:
+        type: object
+        "$ref": "#/definitions/Panaroo"
     required:
       - threads
+      - panaroo
     title: OutbreakDetection
+  Panaroo:
+    type: object
+    additionalProperties: false
+    properties:
+      core_threshold:
+        type: number
+        description: "Core threshold for panaroo."
+        default: 0.98
+      mash_db:
+        type: string
+        description: "Path to the mash database."
+        pattern: '.*/\d{4}-\d{2}-\d{2}.*'
+        default: ""
+      mode:
+        type: string
+        description: "Mode to use for panaroo."
+        default: "sensitive"
+    required:
+      - core_threshold
+      - mash_db
+      - mode
+    title: Panaroo
   Threads:
     additionalProperties: true
-    prokka:
-      type: integer
-      default: 1
-      description: "Number of threads to use for prokka."
-    iqtree:
-      type: integer
-      default: 1
-      description: "Number of threads to use for iqtree"
-    roary:
-      type: integer
-      default: 1
-      description: "Number of threads to use for roary."
-    snp_dists:
-      type: integer
-      default: 1
-      description: "Number of threads to use for snp_dists."
+    properties:
+      prokka:
+        type: integer
+        default: 1
+        description: "Number of threads to use for prokka."
+      iqtree:
+        type: integer
+        default: 1
+        description: "Number of threads to use for iqtree"
+      panaroo:
+        type: integer
+        default: 1
+        description: "Number of threads to use for panaroo."
+      snp_dists:
+        type: integer
+        default: 1
+        description: "Number of threads to use for snp_dists."
     title: Threads
     required:
       - prokka
       - iqtree
-      - roary
+      - panaroo
       - snp_dists

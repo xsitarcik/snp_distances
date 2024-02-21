@@ -1,6 +1,12 @@
 max_threads: 2
+
+panaroo:
+  mash_db: "mash_db/2024-02-21"
+  mode: "sensitive"
+  core_threshold: 0.98
+
 threads:
   prokka: 2
-  roary: 2
+  panaroo: 2
   snp_dists: 2
   iqtree: 2
