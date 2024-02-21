@@ -32,12 +32,12 @@ rule panaroo_download_mash_db:
         "wget -O {output} {params.url} > {log} 2>&1"
 
 
-rule panaroo_QC:
+rule panaroo_qc:
     input:
         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
         mash_db=os.path.join(config["panaroo"]["mash_db"], "refseq.genomes.k21s1000.msh"),
     output:
-        "results/panaroo/QC/contam.graph",
+        "results/panaroo/qc/mash_contamination_barplot.html",
     params:
         outdir=lambda wildcards, output: os.path.dirname(output[0]),
     conda:
@@ -46,13 +46,13 @@ rule panaroo_QC:
     log:
         "logs/panaroo_qc.log",
     shell:
-        "(rm -rf {params.outdir} && panaroo-qc -t {threads} --graph_type all -i {input.GFFs} --ref_db {input.mash_db} -o {params.outdir}) > {log} 2>&1"
+        "(rm -rf {params.outdir} && mkdir -p {params.outdir} && panaroo-qc -t {threads} --graph_type all -i {input.GFFs} --ref_db {input.mash_db} -o {params.outdir}) > {log} 2>&1"
 
 
 rule panaroo_run:
     input:
         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
-        panaroo_qc="results/panaroo/QC/contam.graph",
+        panaroo_qc="results/panaroo/qc/mash_contamination_barplot.html",
     output:
         aln="results/panaroo/output/core_gene_alignment.aln",
         aln_filt="results/panaroo/output/core_gene_alignment_filtered.aln",
