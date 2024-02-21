@@ -52,7 +52,7 @@ rule panaroo_QC:
 rule panaroo_run:
     input:
         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
-        panaroo_qc="results/panaroo_QC/contam.graph",
+        panaroo_qc="results/panaroo/QC/contam.graph",
     output:
         aln="results/panaroo/output/core_gene_alignment.aln",
         aln_filt="results/panaroo/output/core_gene_alignment_filtered.aln",
