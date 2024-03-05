@@ -7,7 +7,7 @@ prokka:
 panaroo:
   mash_db: "mash_db/2024-02-21"
   mode: "sensitive"
-  core_threshold: 0.75
+  core_threshold: 0.05
   aligner: "mafft" # Aligner to use in panaroo. Allowed: {prank,clustal,mafft}
 
 threads:
