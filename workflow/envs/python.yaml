@@ -3,5 +3,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - ggtree
-  - ggplot2
+  - python=3.11

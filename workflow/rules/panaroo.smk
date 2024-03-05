@@ -135,7 +135,7 @@ rule visualize_tree:
         tree_img="results/panaroo/output/outbreak_phylogeny_rectangular.jpg",
     localrule: True
     conda:
-        "../envs/figtree.yaml"
+        "../envs/newick_plot.yaml"
     log:
         "logs/visualize_tree.log",
     script:
