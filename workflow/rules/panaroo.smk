@@ -5,22 +5,21 @@ rule prokka_run:
         multiext("results/prokka/{sample}/{sample}", ".faa", ".ffn", ".fna", ".fsa", ".gbk", ".gff"),
     params:
         outdir=lambda wildcards, output: os.path.dirname(output[0]),
-        # --mincontiglen=200, # Minimum contig size [NCBI needs 200] (default '1')
-        # --centre="CUSP", # Sequencing centre ID. (default '')
-        # --compliant       Force Genbank/ENA/DDJB compliance:
-        extra="--mincontiglen=200 --centre=CUSP --compliant --noanno",
+        mincontiglen=config["prokka"]["mincontiglen"],
+        centre=config["prokka"]["centre"],
     conda:
         "../envs/prokka.yaml"
     threads: min(config["threads"]["prokka"], config["max_threads"])
     log:
         "logs/prokka/{sample}.log",
     shell:
-        "prokka --force --prefix {wildcards.sample} --cpus {threads} --outdir {params.outdir} {input} > {log} 2>&1"
+        "prokka --force --prefix {wildcards.sample} --noanno --compliant {params.mincontiglen}"
+        " --centre {params.centre} --cpus {threads} --outdir {params.outdir} {input} > {log} 2>&1"
 
 
 rule panaroo_download_mash_db:
     output:
-        os.path.join(config["panaroo"]["mash_db"], "refseq.genomes.k21s1000.msh"),
+        protected(os.path.join(config["panaroo"]["mash_db"], "refseq.genomes.k21s1000.msh")),
     params:
         url="https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh",
     conda:
@@ -57,15 +56,16 @@ rule panaroo_run:
         aln_filt="results/panaroo/output/core_gene_alignment_filtered.aln",
     params:
         outdir=lambda wildcards, output: os.path.dirname(output[0]),
-        mode="sensitive",
-        core_threshold=0.98,
+        aligner=config["panaroo"]["aligner"],
+        mode=config["panaroo"]["mode"],
+        core_threshold=config["panaroo"]["core_threshold"],
     conda:
         "../envs/panaroo.yaml"
     threads: min(config["threads"]["panaroo"], config["max_threads"])
     log:
         "logs/panaroo.log",
     shell:
-        "(rm -rf {params.outdir} && panaroo -i {input.GFFs} -o {params.outdir} -a core --aligner mafft"
+        "(rm -rf {params.outdir} && panaroo -i {input.GFFs} -o {params.outdir} -a core --aligner {params.aligner}"
         " --core_threshold {params.core_threshold} -t {threads} --clean-mode {params.mode}) > {log} 2>&1"
 
 

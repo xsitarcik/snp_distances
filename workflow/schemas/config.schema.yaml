@@ -14,6 +14,9 @@ definitions:
         description: "Number of maximum threads to use in jobs."
         default: 1
         Minimum: 1
+      prokka:
+        type: object
+        "$ref": "#/definitions/Prokka"
       threads:
         type: object
         "$ref": "#/definitions/Threads"
@@ -24,6 +27,18 @@ definitions:
       - threads
       - panaroo
     title: OutbreakDetection
+  Prokka:
+    type: object
+    additionalProperties: false
+    properties:
+      centre:
+        type: string
+        description: "Centre to use for prokka (default: CUSP)."
+        default: "CUSP"
+      mincontiglen:
+        type: integer
+        description: "Minimum contig size [NCBI needs 200], default: 200"
+        default: 200
   Panaroo:
     type: object
     additionalProperties: false
@@ -41,6 +56,18 @@ definitions:
         type: string
         description: "Mode to use for panaroo."
         default: "sensitive"
+        enum:
+          - "strict"
+          - "moderate"
+          - "sensitive"
+      aligner:
+        type: string
+        description: "Aligner to use for panaroo."
+        default: "mafft"
+        enum:
+          - "prank"
+          - "clustal"
+          - "mafft"
     required:
       - core_threshold
       - mash_db
