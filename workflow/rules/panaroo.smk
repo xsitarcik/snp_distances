@@ -1,4 +1,3 @@
-
 rule prokka_run:
     input:
         infer_assembly_fasta,
@@ -78,14 +77,16 @@ rule snpdists_compute:
     input:
         aln="results/panaroo/output/core_gene_alignment_filtered.aln",
     output:
-        "results/panaroo/snps_distance/snps_distance_matrix.tsv",
+        tsv="results/panaroo/snps_distance/snps_distance_matrix.tsv",
+        log="results/panaroo/snps_distance/snps_distance.log",
     conda:
         "../envs/snpdists.yaml"
     threads: min(config["threads"]["snp_dists"], config["max_threads"])
     log:
         "logs/snp_dists.log",
     shell:
-        '(snp-dists -b -j {threads} {input} | sed -e "s/_Unicycler_scaffolds_annot//g" > {output})  2> {log}'
+        '(snp-dists -b -j {threads} {input} | sed -e "s/_Unicycler_scaffolds_annot//g" > {output.tsv})  2> {output.log}'
+        ' && echo "snpdists log redirected into {output.log}" > {log}'
 
 
 rule iqtree_phylogeny:
@@ -102,16 +103,48 @@ rule iqtree_phylogeny:
         "iqtree -s {input.aln} -nt {threads} > {log} 2>&1"
 
 
-# phylogeny
-# sed -e "s/_Unicycler_scaffolds_annot//g" roary/*/core_gene_alignment.aln.treefile > cga_IQtree.newick
-# coverage of genome calculation
-# core_genome_size=$(tail -n 1 snps_distance.log | rev | cut -d ' ' -f 1 | rev)
-# coverage=$(echo "scale=3;  $core_genome_size / $lowest_genome_size" | bc)
-# echo "Core genome coverage of the computed genomes is 0${coverage}" > core_genome_coverage.txt
-# echo "Core genome size is ${core_genome_size} bp." >> core_genome_coverage.txt
-# echo "Genome with smallest size is ${lowest_genome_size} bp long. This includes noncoding regions and paralogous genes." >> core_genome_coverage.txt
-# # needs conda activate R_new environment
-# # simple tree drawing
-# Rscript --vanilla newick_tree_plott.R cga_IQtree.newick outbreak_phylogeny_rectangular.jpg
-# echo 'conda activate R_new'
-# echo 'Rscript --vanilla newick_tree_plott.R cga_IQtree.newick outbreak_phylogeny_rectangular.jpg'
+rule find_core_genome_size:
+    input:
+        log="results/panaroo/snps_distance/snps_distance.log",
+    output:
+        "results/summary/core_genome_size.txt",
+    log:
+        "logs/find_core_genome_size.log",
+    conda:
+        "../envs/coreutils.yaml"
+    localrule: True
+    shell:
+        "(tail -n 1 snps_distance.log | rev | cut -d ' ' -f 1 | rev) > {output} 2> {log}"
+
+
+rule find_coverage:
+    input:
+        core="results/summary/core_genome_size.txt",
+        lowest="results/summary/lowest_genome_size.txt",
+    output:
+        "results/summary/core_genome_coverage.txt",
+    conda:
+        "../envs/bc.yaml"
+    log:
+        "logs/find_coverage.log",
+    shell:
+        "(core_genome_size=$(< {input.core}) && lowest_genome_size=$(< {input.lowest})"
+        " && echo 'scale=3;  $core_genome_size / $lowest_genome_size' | bc) > {output} 2> {log}"
+
+
+rule summarize:
+    input:
+        core="results/summary/core_genome_size.txt",
+        lowest="results/summary/lowest_genome_size.txt",
+        coverage="results/summary/core_genome_coverage.txt",
+    output:
+        "results/summary/summary.txt",
+    conda:
+        "../envs/coreutils.yaml"
+    log:
+        "logs/summarize.log",
+    shell:
+        "(echo 'Core genome size: $(< {input.core})' > {output}"
+        " && echo 'Lowest genome size: $(< {input.lowest})' >> {output}"
+        " && echo 'Core genome coverage: $(< {input.coverage})' >> {output}"
+        ") 2> {log}"

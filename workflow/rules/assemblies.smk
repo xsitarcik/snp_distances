@@ -6,10 +6,11 @@ rule seqkit_stats:
     log:
         "logs/summary/seqkit.log",
     params:
-        command="stats",
         extra="--tabular",
-    wrapper:
-        "v3.3.6/bio/seqkit"
+    conda:
+        "../envs/seqkit.yaml"
+    shell:
+        "seqkit stats {input} {params.extra} > {output} 2> {log}"
 
 
 rule compute_lowest_genome_size:
