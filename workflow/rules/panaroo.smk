@@ -13,7 +13,7 @@ rule prokka_run:
     log:
         "logs/prokka/{sample}.log",
     shell:
-        "prokka --force --prefix {wildcards.sample} --noanno --compliant {params.mincontiglen}"
+        "prokka --force --prefix {wildcards.sample} --noanno --compliant --mincontiglen {params.mincontiglen}"
         " --centre {params.centre} --cpus {threads} --outdir {params.outdir} {input} > {log} 2>&1"
 
 
