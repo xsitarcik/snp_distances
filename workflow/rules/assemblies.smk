@@ -17,7 +17,7 @@ rule compute_lowest_genome_size:
     input:
         stats="results/summary/seqkit_stats.tsv",
     output:
-        stats="results/summary/lowest_genome_size.txt",
+        stats=temp("results/summary/lowest_genome_size.txt"),
     log:
         "logs/summary/lowest_genome_size.log",
     conda:

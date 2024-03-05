@@ -3,4 +3,5 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - bc=1.07.1
+  - ggtree
+  - ggplot2

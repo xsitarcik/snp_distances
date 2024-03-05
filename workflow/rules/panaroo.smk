@@ -69,10 +69,6 @@ rule panaroo_run:
         " --core_threshold {params.core_threshold} -t {threads} --clean-mode {params.mode}) > {log} 2>&1"
 
 
-# rule panaroo_postfilter:
-#     panaroo-filter-pa -i ./gene_presence_absence.csv -o ./ --type pseudo,length
-
-
 rule snpdists_compute:
     input:
         aln="results/panaroo/output/core_gene_alignment_filtered.aln",
@@ -107,7 +103,7 @@ rule find_core_genome_size:
     input:
         log="results/panaroo/snps_distance/snps_distance.log",
     output:
-        "results/summary/core_genome_size.txt",
+        temp("results/summary/core_genome_size.txt"),
     log:
         "logs/find_core_genome_size.log",
     conda:
@@ -117,34 +113,30 @@ rule find_core_genome_size:
         "(tail -n 1 {input.log} | rev | cut -d ' ' -f 1 | rev) > {output} 2> {log}"
 
 
-rule find_coverage:
+rule find_coverage_and_summarize:
     input:
         core="results/summary/core_genome_size.txt",
         lowest="results/summary/lowest_genome_size.txt",
     output:
-        "results/summary/core_genome_coverage.txt",
+        "results/summary/summary.tsv",
     conda:
-        "../envs/bc.yaml"
+        "../envs/python.yaml"
+    localrule: True
     log:
-        "logs/find_coverage.log",
-    shell:
-        "(core_genome_size=$(< {input.core}) && lowest_genome_size=$(< {input.lowest})"
-        " && echo 'scale=3;  $core_genome_size / $lowest_genome_size' | bc) > {output} 2> {log}"
+        "logs/find_coverage_and_summarize.log",
+    script:
+        "../scripts/find_coverage_and_summarize.py"
 
 
-rule summarize:
+rule visualize_tree:
     input:
-        core="results/summary/core_genome_size.txt",
-        lowest="results/summary/lowest_genome_size.txt",
-        coverage="results/summary/core_genome_coverage.txt",
+        tree="results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
     output:
-        "results/summary/summary.txt",
+        tree_img="results/panaroo/output/outbreak_phylogeny_rectangular.jpg",
+    localrule: True
     conda:
-        "../envs/coreutils.yaml"
+        "../envs/figtree.yaml"
     log:
-        "logs/summarize.log",
-    shell:
-        "(echo 'Core genome size: $(< {input.core})' > {output}"
-        " && echo 'Lowest genome size: $(< {input.lowest})' >> {output}"
-        " && echo 'Core genome coverage: $(< {input.coverage})' >> {output}"
-        ") 2> {log}"
+        "logs/visualize_tree.log",
+    script:
+        "../scripts/plot_newick_tree.R"

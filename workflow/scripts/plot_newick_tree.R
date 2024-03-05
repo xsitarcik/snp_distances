@@ -21,16 +21,5 @@ plot_tree_from_newick <- function(newick_file, output_file) {
   ggsave(filename = output_file, plot = p, device = "jpeg")
 }
 
-# Check if the correct number of command-line arguments are provided
 
-if (length(commandArgs(trailingOnly = TRUE)) != 2) {
-  cat("Usage: Rscript tree_plott.R input_newick_file output_jpeg_file\n")
-  quit(status = 1)
-}
-
-# Get input and output file names from command-line arguments
-input_newick_file <- commandArgs(trailingOnly = TRUE)[1]
-output_jpeg_file <- commandArgs(trailingOnly = TRUE)[2]
-
-# Call the function to plot the tree and save it as a JPEG image
-plot_tree_from_newick(input_newick_file, output_jpeg_file)
+plot_tree_from_newick(snakemake@input[[1]], snakemake@output[[1]])
