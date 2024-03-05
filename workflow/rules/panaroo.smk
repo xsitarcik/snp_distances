@@ -93,7 +93,7 @@ rule iqtree_phylogeny:
     input:
         aln="results/panaroo/output/core_gene_alignment_filtered.aln",
     output:
-        tree="results/panaroo/phylogeny/core_gene_alignment_filtered.aln.treefile",
+        tree="results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
     log:
         "logs/iqtree.log",
     threads: min(config["threads"]["iqtree"], config["max_threads"])
@@ -114,7 +114,7 @@ rule find_core_genome_size:
         "../envs/coreutils.yaml"
     localrule: True
     shell:
-        "(tail -n 1 snps_distance.log | rev | cut -d ' ' -f 1 | rev) > {output} 2> {log}"
+        "(tail -n 1 {input.log} | rev | cut -d ' ' -f 1 | rev) > {output} 2> {log}"
 
 
 rule find_coverage:

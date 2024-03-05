@@ -41,7 +41,7 @@ def infer_assembly_fasta(wildcards) -> str:
 def get_outputs():
     return {
         "stats": "results/summary/lowest_genome_size.txt",
-        "tree": "results/panaroo/phylogeny/core_gene_alignment_filtered.aln.treefile",
+        "tree": "results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
         "snps": "results/panaroo/snps_distance/snps_distance_matrix.tsv",
         "summary": "results/summary/summary.txt",
     }
