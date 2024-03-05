@@ -43,6 +43,7 @@ def get_outputs():
         "stats": "results/summary/lowest_genome_size.txt",
         "tree": "results/panaroo/phylogeny/core_gene_alignment_filtered.aln.treefile",
         "snps": "results/panaroo/snps_distance/snps_distance_matrix.tsv",
+        "summary": "results/summary/summary.txt",
     }
 
 
