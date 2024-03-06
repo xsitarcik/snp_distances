@@ -51,3 +51,9 @@ repos:
         name: snakemake_linter
         entry: snakemake -c1 --lint --directory .tests/ --snakefile workflow/Snakefile
         language: python
+      - id: snakemake_dry_run
+        name: snakemake_dry_run
+        entry: snakemake -c1 -n --directory .tests/ --snakefile workflow/Snakefile
+        pass_filenames: false
+        always_run: true
+        language: python

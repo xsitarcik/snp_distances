@@ -18,6 +18,7 @@ validate(pep.sample_table, "../schemas/samples.schema.yaml")
 
 ### Data input handling independent of wildcards ######################################################################
 
+
 def get_sample_names() -> list[str]:
     return list(pep.sample_table["sample_name"].values)
 
@@ -25,8 +26,10 @@ def get_sample_names() -> list[str]:
 def get_fasta_for_sample_from_pep(sample: str) -> str:
     return pep.sample_table.loc[sample][["fasta"]][0]
 
+
 def get_all_assemblies() -> list[str]:
     return list(pep.sample_table["fasta"].values)
+
 
 ### Global rule-set stuff #############################################################################################
 
@@ -36,9 +39,12 @@ def infer_assembly_fasta(wildcards) -> str:
 
 
 def get_outputs():
+    tree = "results/panaroo/output/core_gene_alignment_filtered.aln.treefile"
+    newick = "results/panaroo/output/outbreak_phylogeny_rectangular.jpg"
     return {
-        "stats": "results/summary/lowest_genome_size.txt",
-        "tree": "results/roary/_1705504897/core_gene_alignment.aln.treefile"
+        "tree": newick if config["panaroo"]["newick_tree"] else tree,
+        "snps": "results/panaroo/snps_distance/snps_distance_matrix.tsv",
+        "summary": "results/summary/summary.tsv",
     }
 
 

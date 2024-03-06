@@ -2,5 +2,6 @@ channels:
   - defaults
   - bioconda
   - conda-forge
+  - r
 dependencies:
-  - roary=3.13.0
+  - bioconductor-ggtree

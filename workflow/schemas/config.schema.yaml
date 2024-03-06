@@ -14,33 +14,91 @@ definitions:
         description: "Number of maximum threads to use in jobs."
         default: 1
         Minimum: 1
+      prokka:
+        type: object
+        "$ref": "#/definitions/Prokka"
       threads:
         type: object
         "$ref": "#/definitions/Threads"
+      panaroo:
+        type: object
+        "$ref": "#/definitions/Panaroo"
     required:
       - threads
+      - panaroo
     title: OutbreakDetection
+  Prokka:
+    type: object
+    additionalProperties: false
+    properties:
+      centre:
+        type: string
+        description: "Centre to use for prokka (default: CUSP)."
+        default: "CUSP"
+      mincontiglen:
+        type: integer
+        description: "Minimum contig size [NCBI needs 200], default: 200"
+        default: 200
+  Panaroo:
+    type: object
+    additionalProperties: false
+    properties:
+      core_threshold:
+        type: number
+        description: "Core threshold for panaroo."
+        default: 0.98
+      mash_db:
+        type: string
+        description: "Path to the mash database."
+        pattern: '.*/\d{4}-\d{2}-\d{2}.*'
+        default: ""
+      mode:
+        type: string
+        description: "Mode to use for panaroo."
+        default: "sensitive"
+        enum:
+          - "strict"
+          - "moderate"
+          - "sensitive"
+      aligner:
+        type: string
+        description: "Aligner to use for panaroo."
+        default: "mafft"
+        enum:
+          - "prank"
+          - "clustal"
+          - "mafft"
+      newick_tree:
+        type: boolean
+        description: "Generate a newick tree from the panaroo output."
+        default: true
+    required:
+      - core_threshold
+      - mash_db
+      - mode
+    title: Panaroo
   Threads:
     additionalProperties: true
-    prokka:
-      type: integer
-      default: 1
-      description: "Number of threads to use for prokka."
-    iqtree:
-      type: integer
-      default: 1
-      description: "Number of threads to use for iqtree"
-    roary:
-      type: integer
-      default: 1
-      description: "Number of threads to use for roary."
-    snp_dists:
-      type: integer
-      default: 1
-      description: "Number of threads to use for snp_dists."
+    properties:
+      prokka:
+        type: integer
+        default: 1
+        description: "Number of threads to use for prokka."
+      iqtree:
+        type: integer
+        default: 1
+        description: "Number of threads to use for iqtree"
+      panaroo:
+        type: integer
+        default: 1
+        description: "Number of threads to use for panaroo."
+      snp_dists:
+        type: integer
+        default: 1
+        description: "Number of threads to use for snp_dists."
     title: Threads
     required:
       - prokka
       - iqtree
-      - roary
+      - panaroo
       - snp_dists

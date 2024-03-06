@@ -1,6 +1,18 @@
 max_threads: 2
+
+prokka:
+  centre: "CUSP" # Centre name to annotate in prokka outputs, default: CUSP
+  mincontiglen: 200 # Minimum contig size [NCBI needs 200], default: 200
+
+panaroo:
+  mash_db: "mash_db/2024-02-21"
+  mode: "sensitive"
+  core_threshold: 0.05
+  aligner: "mafft" # Aligner to use in panaroo. Allowed: {prank,clustal,mafft}
+  newick_tree: false # Generate a newick tree from the panaroo output, default: true
+
 threads:
   prokka: 2
-  roary: 2
+  panaroo: 2
   snp_dists: 2
   iqtree: 2
