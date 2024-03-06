@@ -1,10 +1,10 @@
-# Snakemake workflow: `<name>`
+# Snakemake workflow: `snp_distances`
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥7.25.0-brightgreen.svg)](https://snakemake.github.io)
-[![Tests](https://github.com/xsitarcik/outbreak_detection/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/xsitarcik/outbreak_detection/actions?query=branch%3Amain+workflow%3ATests)
+[![Tests](https://github.com/xsitarcik/snp_distances/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/xsitarcik/snp_distances/actions?query=branch%3Amain+workflow%3ATests)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
-A Snakemake workflow for outbreak detection.
+A Snakemake workflow for outbreak analysis on the snp_distances level.
 
 ## Development
 
