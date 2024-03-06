@@ -9,6 +9,7 @@ panaroo:
   mode: "sensitive" # The stringency mode at which to run panaroo. Allowed: {strict,moderate,sensitive}
   core_threshold: 0.98 # Core-genome sample threshold
   aligner: "mafft" # Aligner to use in panaroo. Allowed: {prank,clustal,mafft}
+  newick_tree: true # Generate a newick tree from the panaroo output, default: true
 
 threads:
   prokka: 4

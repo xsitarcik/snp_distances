@@ -68,6 +68,10 @@ definitions:
           - "prank"
           - "clustal"
           - "mafft"
+      newick_tree:
+        type: boolean
+        description: "Generate a newick tree from the panaroo output."
+        default: true
     required:
       - core_threshold
       - mash_db
