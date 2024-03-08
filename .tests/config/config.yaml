@@ -12,12 +12,18 @@ panaroo:
   newick_tree: false # Generate a newick tree from the panaroo output, default: true
 
 iqtree:
-  bootstrap: 1000 # Number of bootstrap replicates, default: 1000. Minimum: 1000
+  bootstrap: null # Number of bootstrap replicates, default: 1000. Minimum: 1000. Set to null or 0 to disable bootstrapping.
 
 max_threads: 2
+max_mem_mb: 6000
 
 threads:
   prokka: 2
+  panaroo_QC: 2
   panaroo: 2
   snp_dists: 2
   iqtree: 2
+
+resources:
+  panaroo_qc__mem__mb: 64000
+  panaroo__mem_mb: 16000

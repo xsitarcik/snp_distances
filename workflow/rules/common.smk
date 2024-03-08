@@ -78,5 +78,9 @@ def get_iqtree_bootstrap_param():
 ### Resource handling #################################################################################################
 
 
-def get_mem_mb_for_XY(wildcards, attempt):
-    return min(config["max_mem_mb"], config["resources"]["XY_mem_mb"] * attempt)
+def get_mem_mb_for_panaroo_QC(wildcards, attempt):
+    return min(config["max_mem_mb"], config["resources"]["panaroo_qc__mem__mb"] * attempt)
+
+
+def get_mem_mb_for_panaroo_run(wildcards, attempt):
+    return min(config["max_mem_mb"], config["resources"]["panaroo__mem_mb"] * attempt)

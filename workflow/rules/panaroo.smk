@@ -40,7 +40,9 @@ rule panaroo_qc:
         outdir=lambda wildcards, output: os.path.dirname(output[0]),
     conda:
         "../envs/panaroo.yaml"
-    threads: min(config["threads"]["panaroo"], config["max_threads"])
+    threads: min(config["threads"]["panaroo_QC"], config["max_threads"])
+    resources:
+        mem_mb=get_mem_mb_for_panaroo_QC,
     log:
         "logs/panaroo_qc.log",
     shell:
@@ -62,6 +64,8 @@ rule panaroo_run:
     conda:
         "../envs/panaroo.yaml"
     threads: min(config["threads"]["panaroo"], config["max_threads"])
+    resources:
+        mem_mb=get_mem_mb_for_panaroo_run,
     log:
         "logs/panaroo.log",
     shell:
