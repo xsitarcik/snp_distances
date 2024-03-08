@@ -31,6 +31,19 @@ def get_all_assemblies() -> list[str]:
     return list(pep.sample_table["fasta"].values)
 
 
+if config["validate_taxa_and_mlst"]:
+    if "GTDBtk_taxa" not in pep.sample_table or "mlst" not in pep.sample_table:
+        raise ValueError(
+            "validate_taxa_and_mlst is set to True, but GTDBtk_taxa or mlst are not present in the sample table"
+        )
+    taxonomies = set(list(pep.sample_table["GTDBtk_taxa"].values))
+    mlst_types = set(list(pep.sample_table["mlst"].values))
+    if len(taxonomies) > 1:
+        raise ValueError(f"Multiple taxonomies found: {taxonomies}")
+    if len(mlst_types) > 1:
+        raise ValueError(f"Multiple MLST types found: {mlst_types}")
+
+
 ### Global rule-set stuff #############################################################################################
 
 

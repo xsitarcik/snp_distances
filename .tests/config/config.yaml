@@ -1,4 +1,4 @@
-max_threads: 2
+validate_taxa_and_mlst: False # Fail analysis if GTDBtk taxa and MLST type are not homogeneous among input samples
 
 prokka:
   centre: "CUSP" # Centre name to annotate in prokka outputs, default: CUSP
@@ -13,6 +13,8 @@ panaroo:
 
 iqtree:
   bootstrap: 1000 # Number of bootstrap replicates, default: 1000. Minimum: 1000
+
+max_threads: 2
 
 threads:
   prokka: 2
