@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/xsitarcik/snp_distances/compare/v1.0.0...v1.1.0) (2024-03-08)
+
+
+### Features
+
+* added check for homogenous inputs ([dab1af1](https://github.com/xsitarcik/snp_distances/commit/dab1af1c781457e1887bdf596c05c0233e6a3011))
+* added iqtree bootstrapping ([e982748](https://github.com/xsitarcik/snp_distances/commit/e98274877a89f623f2970b896467c9a845e14a42))
+* added memory setting in config for panaroo ([9801665](https://github.com/xsitarcik/snp_distances/commit/98016654d415da04e4cf8c2e56e90ec908252773))
+
+
+### Bug Fixes
+
+* reordered conda channels in prokka env ([aa6e4a1](https://github.com/xsitarcik/snp_distances/commit/aa6e4a161fe975c6957948b28a67823efe5a9be6))
+
 ## 1.0.0 (2024-03-06)
 
 
