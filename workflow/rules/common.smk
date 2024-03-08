@@ -31,6 +31,19 @@ def get_all_assemblies() -> list[str]:
     return list(pep.sample_table["fasta"].values)
 
 
+if config["validate_taxa_and_mlst"]:
+    if "GTDBtk_taxa" not in pep.sample_table or "mlst" not in pep.sample_table:
+        raise ValueError(
+            "validate_taxa_and_mlst is set to True, but GTDBtk_taxa or mlst are not present in the sample table"
+        )
+    taxonomies = set(list(pep.sample_table["GTDBtk_taxa"].values))
+    mlst_types = set(list(pep.sample_table["mlst"].values))
+    if len(taxonomies) > 1:
+        raise ValueError(f"Multiple taxonomies found: {taxonomies}")
+    if len(mlst_types) > 1:
+        raise ValueError(f"Multiple MLST types found: {mlst_types}")
+
+
 ### Global rule-set stuff #############################################################################################
 
 
@@ -54,8 +67,20 @@ def get_outputs():
 ### Parameter parsing from config #####################################################################################
 
 
+def get_iqtree_bootstrap_param():
+    value = config["iqtree"].get("bootstrap", 0)
+    if value is None or value == 0:
+        return ""
+    else:
+        return f"-bb {value}"
+
+
 ### Resource handling #################################################################################################
 
 
-def get_mem_mb_for_XY(wildcards, attempt):
-    return min(config["max_mem_mb"], config["resources"]["XY_mem_mb"] * attempt)
+def get_mem_mb_for_panaroo_QC(wildcards, attempt):
+    return min(config["max_mem_mb"], config["resources"]["panaroo_qc__mem__mb"] * attempt)
+
+
+def get_mem_mb_for_panaroo_run(wildcards, attempt):
+    return min(config["max_mem_mb"], config["resources"]["panaroo__mem_mb"] * attempt)

@@ -40,7 +40,9 @@ rule panaroo_qc:
         outdir=lambda wildcards, output: os.path.dirname(output[0]),
     conda:
         "../envs/panaroo.yaml"
-    threads: min(config["threads"]["panaroo"], config["max_threads"])
+    threads: min(config["threads"]["panaroo_QC"], config["max_threads"])
+    resources:
+        mem_mb=get_mem_mb_for_panaroo_QC,
     log:
         "logs/panaroo_qc.log",
     shell:
@@ -62,6 +64,8 @@ rule panaroo_run:
     conda:
         "../envs/panaroo.yaml"
     threads: min(config["threads"]["panaroo"], config["max_threads"])
+    resources:
+        mem_mb=get_mem_mb_for_panaroo_run,
     log:
         "logs/panaroo.log",
     shell:
@@ -90,13 +94,15 @@ rule iqtree_phylogeny:
         aln="results/panaroo/output/core_gene_alignment_filtered.aln",
     output:
         tree="results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
+    params:
+        bootstrap=get_iqtree_bootstrap_param(),
     log:
         "logs/iqtree.log",
     threads: min(config["threads"]["iqtree"], config["max_threads"])
     conda:
         "../envs/iqtree.yaml"
     shell:
-        "iqtree -s {input.aln} -nt {threads} > {log} 2>&1"
+        "iqtree -s {input.aln} -nt {threads} {params.bootstrap} > {log} 2>&1"
 
 
 rule find_core_genome_size:

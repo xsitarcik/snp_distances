@@ -14,19 +14,45 @@ definitions:
         description: "Number of maximum threads to use in jobs."
         default: 1
         Minimum: 1
+      max_mem_mb:
+        type: integer
+        description: "Maximum memory in MB to use in jobs."
+        default: 2048
+        Minimum: 2048
+      validate_taxa_and_mlst:
+        type: boolean
+        default: true
+        description: "Fail analysis if GTDBtk taxa and MLST type are not homogeneous among input samples."
       prokka:
         type: object
         "$ref": "#/definitions/Prokka"
       threads:
         type: object
         "$ref": "#/definitions/Threads"
+      resources:
+        type: object
+        "$ref": "#/definitions/Resources"
       panaroo:
         type: object
         "$ref": "#/definitions/Panaroo"
+      iqtree:
+        type: object
+        "$ref": "#/definitions/Iqtree"
     required:
       - threads
       - panaroo
+      - iqtree
     title: OutbreakDetection
+  Iqtree:
+    type: object
+    additionalProperties: false
+    properties:
+      bootstrap:
+        type: [integer, "null"]
+        description: "Number of bootstrap replicates, default: 1000. Minimum: 1000"
+        default: 1000
+    required:
+      - bootstrap
   Prokka:
     type: object
     additionalProperties: false
@@ -77,6 +103,20 @@ definitions:
       - mash_db
       - mode
     title: Panaroo
+  Resources:
+    additionalProperties: true
+    panaroo_qc__mem__mb:
+      type: integer
+      description: "Memory in MB to reserve for panaroo QC."
+      default: 2048
+    panaroo__mem_mb:
+      type: integer
+      description: "Memory in MB to reserve for panaroo."
+      default: 2048
+    required:
+      - panaroo_qc__mem__mb
+      - panaroo__mem_mb
+    title: Resources
   Threads:
     additionalProperties: true
     properties:

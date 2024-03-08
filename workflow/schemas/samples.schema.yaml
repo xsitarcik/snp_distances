@@ -6,12 +6,17 @@ description: an entry in the sample sheet
 properties:
   sample_name:
     type: string
-    description: sample name/identifier
+    description: "sample name/identifier"
   fasta:
     type: string
-    description: path to assembled contigs in FASTA format
+    description: "path to assembled contigs in FASTA format"
+  GTDBtk_taxa:
+    type: string
+    description: "parsed GTDBtk taxonomy"
+  mlst:
+    type: string
+    description: "parsed MLST type or missing value (-)"
 
-# columns that the config/samples.csv file must have to pass schema validation
 required:
   - sample_name
   - fasta
