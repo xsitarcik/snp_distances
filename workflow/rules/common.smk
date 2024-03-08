@@ -54,6 +54,14 @@ def get_outputs():
 ### Parameter parsing from config #####################################################################################
 
 
+def get_iqtree_bootstrap_param():
+    value = config["iqtree"].get("bootstrap", 0)
+    if value is None or value == 0:
+        return ""
+    else:
+        return f"-bb {value}"
+
+
 ### Resource handling #################################################################################################
 
 

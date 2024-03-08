@@ -23,10 +23,24 @@ definitions:
       panaroo:
         type: object
         "$ref": "#/definitions/Panaroo"
+      iqtree:
+        type: object
+        "$ref": "#/definitions/Iqtree"
     required:
       - threads
       - panaroo
+      - iqtree
     title: OutbreakDetection
+  Iqtree:
+    type: object
+    additionalProperties: false
+    properties:
+      bootstrap:
+        type: integer
+        description: "Number of bootstrap replicates, default: 1000. Minimum: 1000"
+        default: 1000
+    required:
+      - bootstrap
   Prokka:
     type: object
     additionalProperties: false
