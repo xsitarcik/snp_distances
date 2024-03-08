@@ -1,4 +1,4 @@
-validate_taxa_and_mlst: False # Fail analysis if GTDBtk taxa and MLST type are not homogeneous among input samples
+validate_taxa_and_mlst: True # Fail analysis if GTDBtk taxa and MLST type are not homogeneous among input samples
 
 prokka:
   centre: "CUSP" # Centre name to annotate in prokka outputs, default: CUSP
