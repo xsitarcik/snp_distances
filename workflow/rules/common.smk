@@ -24,7 +24,7 @@ def get_sample_names() -> list[str]:
 
 
 def get_fasta_for_sample_from_pep(sample: str) -> str:
-    return pep.sample_table.loc[sample][["fasta"]][0]
+    return pep.sample_table.loc[sample][["fasta"]].iloc[0]
 
 
 def get_all_assemblies() -> list[str]:
@@ -52,13 +52,16 @@ def infer_assembly_fasta(wildcards) -> str:
 
 
 def get_outputs():
-    tree = "results/panaroo/output/core_gene_alignment_filtered.aln.treefile"
-    newick = "results/panaroo/output/outbreak_phylogeny_rectangular.jpg"
-    return {
-        "tree": newick if config["panaroo"]["newick_tree"] else tree,
-        "snps": "results/panaroo/snps_distance/snps_distance_matrix.tsv",
+    outputs = {
+        "snps": "results/snp_dists/snp_distance_matrix.tsv",
         "summary": "results/summary/summary.tsv",
     }
+    tree = "results/panaroo/core_gene_alignment_filtered.aln.treefile"
+    newick = "results/panaroo/outbreak_phylogeny_rectangular.jpg"
+    outputs["tree"] = newick if config["panaroo"]["newick_tree"] else tree
+    if config["panaroo_qc"]["do"]:
+        outputs["panaroo_qc"] = "results/panaroo_qc/mash_contamination_barplot.html"
+    return outputs
 
 
 ### Contract for other workflows ######################################################################################
@@ -67,12 +70,31 @@ def get_outputs():
 ### Parameter parsing from config #####################################################################################
 
 
-def get_iqtree_bootstrap_param():
-    value = config["iqtree"].get("bootstrap", 0)
+def get_iqtree_bootstrap_params():
+    value = config["iqtree"]["bootstrap_replicates"]
     if value is None or value == 0:
         return ""
+
+    method = config["iqtree"]["method"]
+    if method == "UFBoot":
+        boot_arg = f"--ufboot {value}"
+    elif method == "standard":
+        boot_arg = f"--boot {value}"
     else:
-        return f"-bb {value}"
+        raise ValueError(f"Unknown bootstrap method: {method}")
+
+    tests_arg = ""
+    if sbt_value := config["iqtree"]["single_branch_tests"]:
+        if sbt_value == "SH-aLRT":
+            tests_arg = f"--alrt {value}"
+        elif sbt_value == "abayes":
+            tests_arg = "--abayes"
+        elif sbt_value == "lbp":
+            tests_arg = f"--lbp {value}"
+        elif sbt_value != "null":
+            raise ValueError(f"Unknown single branch test: {sbt_value}")
+
+    return f"{boot_arg} {tests_arg}"
 
 
 ### Resource handling #################################################################################################

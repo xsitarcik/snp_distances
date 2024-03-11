@@ -32,6 +32,9 @@ definitions:
       resources:
         type: object
         "$ref": "#/definitions/Resources"
+      panaroo_qc:
+        type: object
+        "$ref": "#/definitions/PanarooQC"
       panaroo:
         type: object
         "$ref": "#/definitions/Panaroo"
@@ -47,12 +50,31 @@ definitions:
     type: object
     additionalProperties: false
     properties:
-      bootstrap:
+      bootstrap_replicates:
         type: [integer, "null"]
         description: "Number of bootstrap replicates, default: 1000. Minimum: 1000"
         default: 1000
+      method:
+        type: string
+        enum:
+          - "UFBoot"
+          - "standard"
+        description: "Method to use for bootstrapping, default: UFBoot"
+        default: "UFBoot"
+      single_branch_tests:
+        type: [string, "null"]
+        enum:
+          - "SH-aLRT"
+          - "abayes"
+          - "lbp"
+          - "null"
+          - null
+        description: "Single branch test method to use for assessing branch support."
+        default: "SH-aLRT"
     required:
-      - bootstrap
+      - bootstrap_replicates
+      - method
+      - single_branch_tests
   Prokka:
     type: object
     additionalProperties: false
@@ -65,6 +87,22 @@ definitions:
         type: integer
         description: "Minimum contig size [NCBI needs 200], default: 200"
         default: 200
+  PanarooQC:
+    type: object
+    additionalProperties: false
+    properties:
+      do:
+        type: boolean
+        description: "Generate a QC report for panaroo."
+        default: true
+      mash_db:
+        type: string
+        description: "Path to the mash database."
+        pattern: '.*/\d{4}-\d{2}-\d{2}.*'
+        default: ""
+    required:
+      - do
+      - mash_db
   Panaroo:
     type: object
     additionalProperties: false
@@ -73,11 +111,6 @@ definitions:
         type: number
         description: "Core threshold for panaroo."
         default: 0.98
-      mash_db:
-        type: string
-        description: "Path to the mash database."
-        pattern: '.*/\d{4}-\d{2}-\d{2}.*'
-        default: ""
       mode:
         type: string
         description: "Mode to use for panaroo."
@@ -100,8 +133,9 @@ definitions:
         default: true
     required:
       - core_threshold
-      - mash_db
+      - aligner
       - mode
+      - newick_tree
     title: Panaroo
   Resources:
     additionalProperties: true

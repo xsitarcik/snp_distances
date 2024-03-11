@@ -4,15 +4,22 @@ prokka:
   centre: "CUSP" # Centre name to annotate in prokka outputs, default: CUSP
   mincontiglen: 200 # Minimum contig size [NCBI needs 200], default: 200
 
-panaroo:
+panaroo_qc:
+  do: true # Generate a QC report from the panaroo output. Memory usage is problematic, run with lower threads if needed.
   mash_db: "mash_db/2024-02-21"
+
+panaroo:
   mode: "sensitive"
   core_threshold: 0.05
   aligner: "mafft" # Aligner to use in panaroo. Allowed: {prank,clustal,mafft}
   newick_tree: false # Generate a newick tree from the panaroo output, default: true
 
 iqtree:
-  bootstrap: null # Number of bootstrap replicates, default: 1000. Minimum: 1000. Set to null or 0 to disable bootstrapping.
+  bootstrap_replicates: null # Number of bootstrap replicates, default: 1000. Minimum: 1000.
+  # Set bootstrap_replicates to null or 0 to disable bootstrapping.
+  method: "UFBoot" # Method to use for bootstrapping, default: "UFBoot". Allowed: {"UFBoot", "standard"}.
+  single_branch_tests: "null" # Single branch test method to use for assessing branch support. Allowed: {"SH-aLRT", "abayes", "lbp", "null").
+  # Set single_branch_tests to null to disable single branch tests.
 
 max_threads: 2
 max_mem_mb: 6000
