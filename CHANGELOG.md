@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0](https://github.com/xsitarcik/snp_distances/compare/v1.1.0...v1.2.0) (2024-03-11)
+
+
+### Features
+
+* added singlebranch and method for bootstrap iqtree ([d11115e](https://github.com/xsitarcik/snp_distances/commit/d11115e762737febb6e66629bc4d77e07478fcdb))
+
+
+### Bug Fixes
+
+* added toggle for panaroo qc in config ([56705c6](https://github.com/xsitarcik/snp_distances/commit/56705c6686c82e09fd8183e3f0661895072754ff))
+* cleaned up config to distinguish panaroo and qc ([38afcd7](https://github.com/xsitarcik/snp_distances/commit/38afcd75ba33215cb35c5027b9f6022dad0b7424))
+* restructured output ([f0acec2](https://github.com/xsitarcik/snp_distances/commit/f0acec2eb2a01444ddb3f5a1990aa989f69b2460))
+* using iloc in pepfile ([92ec756](https://github.com/xsitarcik/snp_distances/commit/92ec7560efd2ffb02677b3d28cd0f40e07e9452a))
+
 ## [1.1.0](https://github.com/xsitarcik/snp_distances/compare/v1.0.0...v1.1.0) (2024-03-08)
 
 
