@@ -53,8 +53,8 @@ rule panaroo_run:
     input:
         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
     output:
-        aln="results/panaroo/output/core_gene_alignment.aln",
-        aln_filt="results/panaroo/output/core_gene_alignment_filtered.aln",
+        aln="results/panaroo/core_gene_alignment.aln",
+        aln_filt="results/panaroo/core_gene_alignment_filtered.aln",
     params:
         outdir=lambda wildcards, output: os.path.dirname(output[0]),
         aligner=config["panaroo"]["aligner"],
@@ -74,10 +74,10 @@ rule panaroo_run:
 
 rule snpdists_compute:
     input:
-        aln="results/panaroo/output/core_gene_alignment_filtered.aln",
+        aln="results/panaroo/core_gene_alignment_filtered.aln",
     output:
-        tsv="results/panaroo/snps_distance/snps_distance_matrix.tsv",
-        log="results/panaroo/snps_distance/snps_distance.log",
+        tsv="results/snp_dists/snp_distance_matrix.tsv",
+        log="results/snp_dists/snp_distance.log",
     conda:
         "../envs/snpdists.yaml"
     threads: min(config["threads"]["snp_dists"], config["max_threads"])
@@ -90,9 +90,9 @@ rule snpdists_compute:
 
 rule iqtree_phylogeny:
     input:
-        aln="results/panaroo/output/core_gene_alignment_filtered.aln",
+        aln="results/panaroo/core_gene_alignment_filtered.aln",
     output:
-        tree="results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
+        tree="results/panaroo/core_gene_alignment_filtered.aln.treefile",
     params:
         bootstrap=get_iqtree_bootstrap_params(),
     log:
@@ -106,7 +106,7 @@ rule iqtree_phylogeny:
 
 rule find_core_genome_size:
     input:
-        log="results/panaroo/snps_distance/snps_distance.log",
+        log="results/snp_dists/snp_distance.log",
     output:
         temp("results/summary/core_genome_size.txt"),
     log:
@@ -135,9 +135,9 @@ rule find_coverage_and_summarize:
 
 rule visualize_tree:
     input:
-        tree="results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
+        tree="results/panaroo/core_gene_alignment_filtered.aln.treefile",
     output:
-        tree_img="results/panaroo/output/outbreak_phylogeny_rectangular.jpg",
+        tree_img="results/panaroo/outbreak_phylogeny_rectangular.jpg",
     localrule: True
     conda:
         "../envs/newick_plot.yaml"
