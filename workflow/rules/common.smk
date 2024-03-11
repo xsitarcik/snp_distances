@@ -24,7 +24,7 @@ def get_sample_names() -> list[str]:
 
 
 def get_fasta_for_sample_from_pep(sample: str) -> str:
-    return pep.sample_table.loc[sample][["fasta"]][0]
+    return pep.sample_table.loc[sample][["fasta"]].iloc[0]
 
 
 def get_all_assemblies() -> list[str]:
