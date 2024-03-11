@@ -52,13 +52,16 @@ def infer_assembly_fasta(wildcards) -> str:
 
 
 def get_outputs():
-    tree = "results/panaroo/output/core_gene_alignment_filtered.aln.treefile"
-    newick = "results/panaroo/output/outbreak_phylogeny_rectangular.jpg"
-    return {
-        "tree": newick if config["panaroo"]["newick_tree"] else tree,
+    outputs = {
         "snps": "results/panaroo/snps_distance/snps_distance_matrix.tsv",
         "summary": "results/summary/summary.tsv",
     }
+    tree = "results/panaroo/output/core_gene_alignment_filtered.aln.treefile"
+    newick = "results/panaroo/output/outbreak_phylogeny_rectangular.jpg"
+    outputs["tree"] = newick if config["panaroo"]["newick_tree"] else tree
+    if config["panaroo"]["qc_report"]:
+        outputs["panaroo_qc"] = "results/panaroo_qc/mash_contamination_barplot.html"
+    return outputs
 
 
 ### Contract for other workflows ######################################################################################

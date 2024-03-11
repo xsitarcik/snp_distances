@@ -5,6 +5,7 @@ prokka:
   mincontiglen: 200 # Minimum contig size [NCBI needs 200], default: 200
 
 panaroo:
+  qc_report: true # Generate a QC report from the panaroo output. Memory usage is problematic, run with lower threads if needed.
   mash_db: "mash_db/2024-02-21"
   mode: "sensitive"
   core_threshold: 0.05

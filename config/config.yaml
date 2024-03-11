@@ -5,6 +5,7 @@ prokka:
   mincontiglen: 200 # Minimum contig size [NCBI needs 200], default: 200
 
 panaroo:
+  qc_report: false # Generate panaroo QC report. Note: Memory usage is problematic, run with lower threads if needed.
   mash_db: "/data/genome/others/mash_db/2024-02-21" # Path to the mash database. Must be timestamped. Will be downloaded if does not exist.
   mode: "sensitive" # The stringency mode at which to run panaroo. Allowed: {strict,moderate,sensitive}
   core_threshold: 0.98 # Core-genome sample threshold

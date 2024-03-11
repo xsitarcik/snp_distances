@@ -88,6 +88,10 @@ definitions:
     type: object
     additionalProperties: false
     properties:
+      qc_report:
+        type: boolean
+        description: "Generate a QC report for panaroo."
+        default: true
       core_threshold:
         type: number
         description: "Core threshold for panaroo."
