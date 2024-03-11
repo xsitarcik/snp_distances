@@ -47,12 +47,31 @@ definitions:
     type: object
     additionalProperties: false
     properties:
-      bootstrap:
+      bootstrap_replicates:
         type: [integer, "null"]
         description: "Number of bootstrap replicates, default: 1000. Minimum: 1000"
         default: 1000
+      method:
+        type: string
+        enum:
+          - "UFBoot"
+          - "standard"
+        description: "Method to use for bootstrapping, default: UFBoot"
+        default: "UFBoot"
+      single_branch_tests:
+        type: [string, "null"]
+        enum:
+          - "SH-aLRT"
+          - "abayes"
+          - "lbp"
+          - "null"
+          - null
+        description: "Single branch test method to use for assessing branch support."
+        default: "SH-aLRT"
     required:
-      - bootstrap
+      - bootstrap_replicates
+      - method
+      - single_branch_tests
   Prokka:
     type: object
     additionalProperties: false

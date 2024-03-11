@@ -12,7 +12,11 @@ panaroo:
   newick_tree: true # Generate a newick tree from the panaroo output, default: true
 
 iqtree:
-  bootstrap: 1000 # Number of bootstrap replicates, default: 1000. Minimum: 1000. Set to null or 0 to disable bootstrapping.
+  bootstrap_replicates: 1000 # Number of bootstrap replicates, default: 1000. Minimum: 1000.
+  # Set bootstrap_replicates to null or 0 to disable bootstrapping.
+  method: "UFBoot" # Method to use for bootstrapping, default: "UFBoot". Allowed: {"UFBoot", "standard"}.
+  single_branch_tests: "SH-aLRT" # Single branch test method to use for assessing branch support. Allowed: {"SH-aLRT", "abayes", "lbp", "null").
+  # Set single_branch_tests to null to disable single branch tests.
 
 max_threads: 8
 max_mem_mb: 64000

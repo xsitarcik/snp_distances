@@ -95,14 +95,14 @@ rule iqtree_phylogeny:
     output:
         tree="results/panaroo/output/core_gene_alignment_filtered.aln.treefile",
     params:
-        bootstrap=get_iqtree_bootstrap_param(),
+        bootstrap=get_iqtree_bootstrap_params(),
     log:
         "logs/iqtree.log",
     threads: min(config["threads"]["iqtree"], config["max_threads"])
     conda:
         "../envs/iqtree.yaml"
     shell:
-        "iqtree -s {input.aln} -nt {threads} {params.bootstrap} > {log} 2>&1"
+        "iqtree2 -s {input.aln} -T {threads} {params.bootstrap} > {log} 2>&1"
 
 
 rule find_core_genome_size:

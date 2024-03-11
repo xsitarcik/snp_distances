@@ -67,12 +67,31 @@ def get_outputs():
 ### Parameter parsing from config #####################################################################################
 
 
-def get_iqtree_bootstrap_param():
-    value = config["iqtree"].get("bootstrap", 0)
+def get_iqtree_bootstrap_params():
+    value = config["iqtree"]["bootstrap_replicates"]
     if value is None or value == 0:
         return ""
+
+    method = config["iqtree"]["method"]
+    if method == "UFBoot":
+        boot_arg = f"--ufboot {value}"
+    elif method == "standard":
+        boot_arg = f"--boot {value}"
     else:
-        return f"-bb {value}"
+        raise ValueError(f"Unknown bootstrap method: {method}")
+
+    tests_arg = ""
+    if sbt_value := config["iqtree"]["single_branch_tests"]:
+        if sbt_value == "SH-aLRT":
+            tests_arg = f"--alrt {value}"
+        elif sbt_value == "abayes":
+            tests_arg = "--abayes"
+        elif sbt_value == "lbp":
+            tests_arg = f"--lbp {value}"
+        elif sbt_value != "null":
+            raise ValueError(f"Unknown single branch test: {sbt_value}")
+
+    return f"{boot_arg} {tests_arg}"
 
 
 ### Resource handling #################################################################################################
