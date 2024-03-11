@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # needed personal access token such that checks are triggered on the created PR, see https://github.com/peter-evans/create-pull-request/blob/main/docs/concepts-guidelines.md#triggering-further-workflow-runs
-      - uses: tibdex/github-app-token@v1
+      - uses: tibdex/github-app-token@v2
         id: generate-token
         with:
           app_id: ${{ secrets.CONDA_UPDATE_ENVS_APP_ID }}
