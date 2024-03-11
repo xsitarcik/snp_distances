@@ -19,13 +19,13 @@ rule prokka_run:
 
 rule panaroo_download_mash_db:
     output:
-        protected(os.path.join(config["panaroo"]["mash_db"], "refseq.genomes.k21s1000.msh")),
+        protected(os.path.join(config["panaroo_qc"]["mash_db"], "refseq.genomes.k21s1000.msh")),
     params:
         url="https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh",
     conda:
         "../envs/panaroo.yaml"
     log:
-        os.path.join(config["panaroo"]["mash_db"], "logs", "mash_db.log"),
+        os.path.join(config["panaroo_qc"]["mash_db"], "logs", "mash_db.log"),
     shell:
         "wget -O {output} {params.url} > {log} 2>&1"
 
@@ -33,7 +33,7 @@ rule panaroo_download_mash_db:
 rule panaroo_qc:
     input:
         GFFs=expand("results/prokka/{sample}/{sample}.gff", sample=get_sample_names()),
-        mash_db=os.path.join(config["panaroo"]["mash_db"], "refseq.genomes.k21s1000.msh"),
+        mash_db=os.path.join(config["panaroo_qc"]["mash_db"], "refseq.genomes.k21s1000.msh"),
     output:
         "results/panaroo_qc/mash_contamination_barplot.html",
     params:

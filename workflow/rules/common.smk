@@ -59,7 +59,7 @@ def get_outputs():
     tree = "results/panaroo/output/core_gene_alignment_filtered.aln.treefile"
     newick = "results/panaroo/output/outbreak_phylogeny_rectangular.jpg"
     outputs["tree"] = newick if config["panaroo"]["newick_tree"] else tree
-    if config["panaroo"]["qc_report"]:
+    if config["panaroo_qc"]["do"]:
         outputs["panaroo_qc"] = "results/panaroo_qc/mash_contamination_barplot.html"
     return outputs
 

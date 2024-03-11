@@ -4,9 +4,11 @@ prokka:
   centre: "CUSP" # Centre name to annotate in prokka outputs, default: CUSP
   mincontiglen: 200 # Minimum contig size [NCBI needs 200], default: 200
 
-panaroo:
-  qc_report: true # Generate a QC report from the panaroo output. Memory usage is problematic, run with lower threads if needed.
+panaroo_qc:
+  do: true # Generate a QC report from the panaroo output. Memory usage is problematic, run with lower threads if needed.
   mash_db: "mash_db/2024-02-21"
+
+panaroo:
   mode: "sensitive"
   core_threshold: 0.05
   aligner: "mafft" # Aligner to use in panaroo. Allowed: {prank,clustal,mafft}
