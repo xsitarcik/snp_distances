@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/xsitarcik/snp_distances/compare/v1.2.0...v1.2.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* iqtree threads inferred automatically ([4a695ce](https://github.com/xsitarcik/snp_distances/commit/4a695cefcccfa75a965a432bd8302e87246446c5))
+
 ## [1.2.0](https://github.com/xsitarcik/snp_distances/compare/v1.1.0...v1.2.0) (2024-03-11)
 
 
