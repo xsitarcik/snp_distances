@@ -101,7 +101,7 @@ rule iqtree_phylogeny:
     conda:
         "../envs/iqtree.yaml"
     shell:
-        "iqtree2 -s {input.aln} -T {threads} {params.bootstrap} > {log} 2>&1"
+        "iqtree2 -s {input.aln} -T AUTO -ntmax {threads} {params.bootstrap} > {log} 2>&1"
 
 
 rule find_core_genome_size:

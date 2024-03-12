@@ -29,7 +29,7 @@ threads:
   panaroo_QC: 2
   panaroo: 8
   snp_dists: 4
-  iqtree: 8
+  iqtree: 8 # the number of threads is inferred automatically, but limited up to this number (i.e. iqtree2 -T AUTO -nt {this_value})
 
 resources:
   panaroo_qc__mem__mb: 64000
