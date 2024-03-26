@@ -23,4 +23,4 @@ rule compute_lowest_genome_size:
     conda:
         "../envs/coreutils.yaml"
     shell:
-        "(cat {input} | tail -n +2 | cut -f 5 | sort | head -n 1 > {output}) 2> {log}"
+        "(cat {input} | tail -n +2 | cut -f 5 | sort -n | head -n 1 > {output}) 2> {log}"
