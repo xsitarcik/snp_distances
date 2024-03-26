@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.2](https://github.com/xsitarcik/snp_distances/compare/v1.2.1...v1.2.2) (2024-03-26)
+
+
+### Bug Fixes
+
+* computing lowest genome size fixed to use numerical sort ([1127dd1](https://github.com/xsitarcik/snp_distances/commit/1127dd1d338ef6d7f5646bdf3e0a0faab94ec892))
+
+
+### Performance Improvements
+
+* added some rules as local ([2018a72](https://github.com/xsitarcik/snp_distances/commit/2018a724a9d74787e33581e3a25802d9866bfef9))
+
 ## [1.2.1](https://github.com/xsitarcik/snp_distances/compare/v1.2.0...v1.2.1) (2024-03-12)
 
 
