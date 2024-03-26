@@ -24,6 +24,7 @@ rule panaroo_download_mash_db:
         url="https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh",
     conda:
         "../envs/panaroo.yaml"
+    localrule: True
     log:
         os.path.join(config["panaroo_qc"]["mash_db"], "logs", "mash_db.log"),
     shell:

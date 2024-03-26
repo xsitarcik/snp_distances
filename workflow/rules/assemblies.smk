@@ -20,6 +20,7 @@ rule compute_lowest_genome_size:
         stats=temp("results/summary/lowest_genome_size.txt"),
     log:
         "logs/summary/lowest_genome_size.log",
+    localrule: True
     conda:
         "../envs/coreutils.yaml"
     shell:
